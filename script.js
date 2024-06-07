@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     taskForm.addEventListener('submit', addTask);
     taskList.addEventListener('click', updateTask);
+    searchInput.addEventListener('keyup', searchTasks);
 
     function addTask(event) {
         event.preventDefault();
@@ -30,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayTasks() {
-        taskList.innerHTML
         taskList.innerHTML = '';
 
         tasks.forEach((task, index) => {
@@ -64,5 +64,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         displayTasks();
     }
-});
 
+    function searchTasks(event) {
+        const query = event.target.value.toLowerCase();
+        const filteredTasks = tasks.filter(task => task.title.toLowerCase().includes(query));
+        taskList.innerHTML = '';
+
+        filteredTasks.forEach((task, index) => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${task.title}</td>
+                <td>${task.description}</td>
+                <td>${task.dueDate}</td>
+                <td>${task.priority}</td>
+                <td>${task.status}</td>
+                <td class="actions">
+                    <button data-action="toggle" data-index="${index}">${task.status === 'Pending' ? 'Complete' : 'Reopen'}</button>
+                    <button data-action="delete" data-index="${index}">Delete</button>
+                </td>
+            `;
+
+            taskList.appendChild(row);
+        });
+    }
+});
