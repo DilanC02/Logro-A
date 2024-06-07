@@ -5,6 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let tasks = [];
 
+    taskForm.addEventListener('submit', addTask);
+
+    function addTask(event) {
+        event.preventDefault();
+        
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const dueDate = document.getElementById('due-date').value;
+        const priority = document.getElementById('priority').value;
+
+        const task = {
+            title,
+            description,
+            dueDate,
+            priority,
+            status: 'Pending'
+        };
+
+        tasks.push(task);
+        displayTasks();
+        taskForm.reset();
+    }
+
     function displayTasks() {
         taskList.innerHTML = '';
 
