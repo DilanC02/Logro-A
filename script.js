@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let tasks = [];
 
     taskForm.addEventListener('submit', addTask);
+    taskList.addEventListener('click', updateTask);
 
     function addTask(event) {
         event.preventDefault();
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayTasks() {
+        taskList.innerHTML
         taskList.innerHTML = '';
 
         tasks.forEach((task, index) => {
@@ -49,4 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
             taskList.appendChild(row);
         });
     }
+
+    function updateTask(event) {
+        const action = event.target.getAttribute('data-action');
+        const index = event.target.getAttribute('data-index');
+
+        if (action === 'toggle') {
+            tasks[index].status = tasks[index].status === 'Pending' ? 'Completed' : 'Pending';
+        } else if (action === 'delete') {
+            tasks.splice(index, 1);
+        }
+
+        displayTasks();
+    }
 });
+
